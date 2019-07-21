@@ -18,10 +18,4 @@ COPY . .
 RUN GOBIN=/maxx/bin go install -mod vendor ./...
 
 
-#Environment
-#ENV SERVER_ADDR=www.herdius.com:8443
-#ENV CERT_FILE=./cert/server.crt
-#ENV COUNT=10
-
-
 CMD ["sh", "-c","./bin/client -server_addr=$SERVER_ADDR -cert_file=$CERT_FILE -count=$COUNT"]

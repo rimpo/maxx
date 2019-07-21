@@ -17,13 +17,6 @@ COPY . .
 # use vendor folder to install
 RUN GOBIN=/maxx/bin go install -mod vendor ./...
 
-
-#Environment
-#ENV PORT=8443
-#ENV CERT_FILE=./cert/server.crt
-#ENV KEY_FILE=./cert/server.key
-
 EXPOSE ${PORT}
-
 
 CMD ["sh", "-c","./bin/server -port=$PORT -cert_file=$CERT_FILE -key_file=$KEY_FILE"]
