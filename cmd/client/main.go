@@ -21,6 +21,7 @@ var (
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
+	time.Sleep(2 * time.Second)
 
 	flag.Parse()
 
@@ -50,6 +51,9 @@ func main() {
 
 	waitc := make(chan struct{})
 
+	//capture what is sent and received over stream
+	var sent, recv []int32
+
 	//receive from stream
 	go func() {
 		for {
@@ -63,14 +67,21 @@ func main() {
 				log.Fatalf("Failed to receive a note : %v", err)
 			}
 
-			log.Printf("current max:%v", in.Max)
+			recv = append(recv, in.Max)
+			//log.Printf("current max:%v", in.Max)
 		}
 	}()
 
 	//send on stream
 	for i := 0; i < *count; i++ {
-		//send random number from 1 to 100
-		if err := stream.Send(&max.Request{Num: int32(rand.Intn(100) + 1)}); err != nil {
+		//random number from 1 to 100
+		num := int32(rand.Intn(100) + 1)
+
+		//capture sent number
+		sent = append(sent, num)
+
+		//send
+		if err := stream.Send(&max.Request{Num: num}); err != nil {
 			log.Fatalf("Failed to send a note: %v", err)
 		}
 	}
@@ -79,4 +90,6 @@ func main() {
 
 	//wait for close
 	<-waitc
+
+	log.Printf("sent:%v recv:%v", sent, recv)
 }

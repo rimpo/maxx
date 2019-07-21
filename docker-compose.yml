@@ -1,5 +1,21 @@
 version : '3'
-
 services:
   server:
-    build: go install ./...
+    network_mode: host
+    build: 
+      context: .
+      dockerfile: ./dockerfile_server
+    ports:
+      - "8443:8443"
+
+  client:
+    network_mode: host
+    build: 
+      context: .
+      dockerfile: ./dockerfile_client
+    depends_on: 
+      - server
+    extra_hosts:
+      - "www.herdius.com:127.0.0.1"
+
+  

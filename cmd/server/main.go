@@ -35,13 +35,16 @@ func (m maxServer) FindMaxNumber(stream max.Service_FindMaxNumberServer) error {
 			return err
 		}
 
-		log.Printf("received:%v", in.Num)
+		//log.Printf("received:%v", in.Num)
+
 		if maxNumber < in.Num {
 			maxNumber = in.Num
+			//send when max
+			if err := stream.Send(&max.Response{Max: maxNumber}); err != nil {
+				return err
+			}
 		}
-		if err := stream.Send(&max.Response{Max: maxNumber}); err != nil {
-			return err
-		}
+
 	}
 }
 

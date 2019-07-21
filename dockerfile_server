@@ -1,0 +1,29 @@
+FROM golang:1.12.7-alpine 
+
+# install git
+RUN apk add --update --no-cache ca-certificates git
+
+ENV GO111MODULE=on
+
+RUN mkdir -p /maxx/bin
+WORKDIR /maxx
+
+COPY go.mod . 
+COPY go.sum .
+
+# COPY the source code as the last step
+COPY . .
+
+# use vendor folder to install
+RUN GOBIN=/maxx/bin go install -mod vendor ./...
+
+
+#Environment
+ENV PORT=8443
+ENV CERT_FILE=./cert/server.crt
+ENV KEY_FILE=./cert/server.key
+
+EXPOSE ${PORT}
+
+
+CMD ["sh", "-c","./bin/server -port=$PORT -cert_file=$CERT_FILE -key_file=$KEY_FILE"]
