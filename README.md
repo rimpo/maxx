@@ -1,4 +1,6 @@
 # maxx
-Sample bidirectional grpc client server
+grpc client server using bi-directional stream 
 
-TODO
+- client server communicate using encrypted messages (SSL/TLS) over grp bidirectional stream.
+- client sends number over stream.
+- server returns the current maximum number received over the stream.
