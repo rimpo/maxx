@@ -21,7 +21,6 @@ var (
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	time.Sleep(2 * time.Second)
 
 	flag.Parse()
 
@@ -35,13 +34,14 @@ func main() {
 		log.Fatalf("could not load tls cert: %s", err)
 	}
 
+	//make connection with server
 	conn, err := grpc.Dial(*serverAddr, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("failed to connect. %v", err)
 	}
-
 	defer conn.Close()
 
+	//initialize rpc client
 	client := max.NewServiceClient(conn)
 
 	stream, err := client.FindMaxNumber(context.Background())
@@ -85,11 +85,10 @@ func main() {
 			log.Fatalf("Failed to send a note: %v", err)
 		}
 	}
-	//close the stream
-	stream.CloseSend()
 
-	//wait for close
-	<-waitc
+	//post sent - close stream and wait for recv goroutine to gracefully stop
+	stream.CloseSend()
+	<-waitc //waiting for recv goroutine to gracefully stop.
 
 	log.Printf("sent:%v recv:%v", sent, recv)
 }

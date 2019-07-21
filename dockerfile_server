@@ -19,9 +19,9 @@ RUN GOBIN=/maxx/bin go install -mod vendor ./...
 
 
 #Environment
-ENV PORT=8443
-ENV CERT_FILE=./cert/server.crt
-ENV KEY_FILE=./cert/server.key
+#ENV PORT=8443
+#ENV CERT_FILE=./cert/server.crt
+#ENV KEY_FILE=./cert/server.key
 
 EXPOSE ${PORT}
 

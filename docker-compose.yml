@@ -5,6 +5,10 @@ services:
     build: 
       context: .
       dockerfile: ./dockerfile_server
+    environment:
+      - PORT=8443
+      - CERT_FILE=./cert/server.crt
+      - KEY_FILE=./cert/server.key
     ports:
       - "8443:8443"
 
@@ -13,8 +17,14 @@ services:
     build: 
       context: .
       dockerfile: ./dockerfile_client
+    #client should initiate after server
     depends_on: 
       - server
+    environment:
+      - SERVER_ADDR=www.herdius.com:8443
+      - CERT_FILE=./cert/server.crt
+      - COUNT=5
+    # entry needed in /etc/hosts for SSL/TLS
     extra_hosts:
       - "www.herdius.com:127.0.0.1"
 
