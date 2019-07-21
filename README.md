@@ -12,7 +12,7 @@ Client sends over stream [21, 81, 73, 94, 54]
 
 Server sends back over stream [21, 81, 94] i.e. current maximum
 
-## Prerequiste:
+### Prerequisite:
 - Install Docker Compose [doc](https://docs.docker.com/compose/install/)
 - Install grpc [doc](https://grpc.io/docs/quickstart/go/)
 
