@@ -5,8 +5,11 @@ A simple grpc client server using bi-directional stream
 - client sends number over stream.
 - server returns the current maximum number received over the stream.
 
+
 **Example:**
+
 Client sends over stream [21, 81, 73, 94, 54]
+
 Server sends back over stream [21, 81, 94] i.e. current maximum
 
 ## Prerequiste:
@@ -17,17 +20,21 @@ Server sends back over stream [21, 81, 94] i.e. current maximum
 ## Run
 
 ##### Build
+
 ```sh
 # build docker images
 docker-compose build
 ```
 
 ##### Run - 1 server and 4 client container
+
 ```sh
 # run the docker containers
 docker-compose up --scale client=4
 ```
-Output:
+
+###### Output:
+
 ```sh
 Starting maxx_server_1 ... done
 Starting maxx_client_1               ... done
